@@ -147,6 +147,9 @@ class playlistClass:
     def updatePlaylists(self):
         return self.sp.current_user_playlists()
 
+    def updatePlaylistID(self):
+        self.playlistID = self.findPlaylist()
+
     def findPlaylist(self):
         self.updateSelfPlaylists()
         if not self.getPlaylistId():
@@ -164,7 +167,7 @@ class playlistClass:
         self.sp.user_playlist_create(sp.user['id'], str(self.year), False, False,
                                      f"Playlist created for {sp.user['display_name']}  most listened "
                                      f"songs of {self.year}")
-        self.playlists = self.sp.current_user_playlists()
+        self.updateSelfPlaylists()
         logging.info(f"Created new playlist for year {self.year}")
         return self.findPlaylist()
 
@@ -218,6 +221,7 @@ class dataBase:
         self.cursor.execute(songSql, songValues)
         connector.mydb.commit()
         self.updateJSONFiles()
+        playlist.updateSelfPlaylists()
         playlist.addToPlaylist()
 
     def updateJSONFiles(self):
