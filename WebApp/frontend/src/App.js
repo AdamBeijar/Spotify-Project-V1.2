@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState} from 'react'
 import Title from "./Components/title"
 import Songblock from "./Components/SongBlock/songblock";
 import Status from "./Components/Status/status";
@@ -30,24 +30,24 @@ const App = () => {
         gridColumn: 4,
         gridRow: 2
     }
-    const SonglistStyle = {
+    const SongListStyle = {
         gridColumn: 4,
         gridRow: 3,
         minHeight: 300
     }
     const currentHoverItem = (name, hover) => {
         if(hover){
-            setHoverItem(<Hoveritem title={name['title']} artist={name['artist']} album={name['album']}/>)
+            setHoverItem(<Hoveritem song={name}/>)
         }
     }
     return (
-        <div style={appStyle}>
-            <Title style={titleStyle}/>
-            <Songblock style={SongBlockStyle}/>
-            <Status style={StatusStyle}/>
-            <Songlist style={SonglistStyle} HoverItem={currentHoverItem}/>
-            {hoverItem}
-        </div>
+            <div style={appStyle}>
+                <Title style={titleStyle}/>
+                <Songblock style={SongBlockStyle}/>
+                <Status style={StatusStyle}/>
+                <Songlist style={SongListStyle} HoverItem={currentHoverItem}/>
+                {hoverItem}
+            </div>
     )
 }
 

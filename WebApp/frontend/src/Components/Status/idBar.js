@@ -5,7 +5,7 @@ const IdBar = () => {
     }
     return (
         <div style={MarginTop}>
-            Id: 200121
+            Id: None
         </div>
     )
 }

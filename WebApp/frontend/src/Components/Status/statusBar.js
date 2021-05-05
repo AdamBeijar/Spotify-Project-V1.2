@@ -4,7 +4,7 @@ const StatusBar = () => {
 
     return (
         <div >
-            Status: Online
+            Status: Work in progress, development underway
         </div>
     )
 }

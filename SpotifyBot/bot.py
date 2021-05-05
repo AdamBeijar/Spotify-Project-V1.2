@@ -8,7 +8,7 @@ import logging
 
 
 def updateLogConfig():
-    logging.basicConfig(filename=f"./logs/{datetime.datetime.now().date()}.log",
+    logging.basicConfig(filename=f"./logs/logs.log",
                         format='%(levelname)s %(asctime)s file: %(filename)s function: %(funcName)s line: %(lineno)s \n'
                                '      %(message)s', level=logging.INFO)
 
@@ -16,10 +16,12 @@ def updateLogConfig():
 class Credentials:
     def __init__(self):
         self.scopes = "user-read-currently-playing"
+        self.client_id = "CLIENT_ID"
         self.client_secret = "CLIENT_SECRET"
-        self.redirect = "REDIRECT_URI"
+        self.redirect = "http://localhost:1234/SpotifyBot"
         self.sp = spotipy.Spotify(
             auth_manager=spotipy.SpotifyOAuth(
+                client_id=self.client_id,
                 client_secret=self.client_secret,
                 redirect_uri=self.redirect,
                 scope=self.scopes,
@@ -211,8 +213,9 @@ class playlistClass:
 
 
 class dataBase:
-    def __init__(self):
+    def __init__(self, sp):
         self.cursor = connector.myCursor
+        self.sp = sp
 
     def addToSongsDT(self, songId, name, artists, album):
         artistStr = ", ".join(artist['name'] for artist in artists)
@@ -268,6 +271,7 @@ class dataBase:
         song = self.cursor.fetchall()
         if self.cursor.rowcount > 0:
             song[0]["count"] = self.cursor.rowcount
+            song[0]["imgUrl"] = self.findSpotifyImage(uniqueSong['songId'])
             return song[0]
 
     @staticmethod
@@ -284,6 +288,11 @@ class dataBase:
             data = json.load(currentFile)
             return data
 
+    def findSpotifyImage(self, songId):
+        song = self.sp.track(songId)
+        print(song['album']['images'][1]['url'])
+        return song['album']['images'][1]['url']
+
 
 try:
     updateLogConfig()
@@ -291,7 +300,7 @@ try:
     currentSongs = currentSong(sp.sp)
     lastSongs = lastSong(sp.sp)
     playlist = playlistClass(sp.sp)
-    currentDB = dataBase()
+    currentDB = dataBase(sp.sp)
     logging.info("Classes created successfully")
 except Exception as Error:
     logging.error(Error)

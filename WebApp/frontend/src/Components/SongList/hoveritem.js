@@ -1,18 +1,20 @@
 import React from "react";
 import Textblock from "./TextBlock/textblock";
-import cover from "../../devPic/21stCenturyBreakdown.jpg"
+import Button from "../addToQueue";
+
+
 const Hoveritem = (props) => {
     const gridPlacement = {
         gridColumn: 3,
         gridRow: 3,
-        padding:0,
-        margin:0,
-        display:"flex",
+        padding: 0,
+        margin: 0,
+        display: "flex",
         alignItems: "center",
         justifyContent: "center",
     }
     const Left = {
-        float:"left",
+        float: "left",
     }
     const HoverBorder = {
         borderColor: "black",
@@ -37,8 +39,9 @@ const Hoveritem = (props) => {
     return (
         <div style={gridPlacement}>
             <div style={HoverStyle}>
-                <img style={ImageStyle} src={cover} alt={"placeholder"}/>
-                <Textblock style={TextBlockStyle} title={props.title} artist={props.artist} album={props.album}/>
+                <img style={ImageStyle} src={props.song['imgUrl']} alt={"placeholder"}/>
+                <Textblock style={TextBlockStyle} title={props.song['name']} artist={props.song['artist']} album={props.song['album']}/>
+                <Button songs={[props.song]} name={"Add to Queue"}/>
             </div>
         </div>
     )

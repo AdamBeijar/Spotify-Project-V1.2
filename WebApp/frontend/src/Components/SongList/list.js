@@ -2,9 +2,13 @@ import React from "react";
 import ListItem from "./listItem";
 
 const List = (props) => {
+    let currentList = props.currentList.sort((a, b) => {
+        return b.count - a.count
+    })
+    currentList = currentList.filter((item, idx) => idx < 10)
     return (
         <div style={props.style}>
-            {props.currentList.map((list) => <ListItem key={list['title']} song={list} HoverItem={props.HoverItem}/>)}
+            {currentList.map((list) => <ListItem key={list['songId']} song={list} HoverItem={props.HoverItem}/>)}
         </div>
     )
 }
